@@ -1,0 +1,4 @@
+{
+    "clientId": "<CLIENT_ID>",
+    "discoveryEndpoint": "<WELL_KNOWN_ENDPOINT>"
+}
