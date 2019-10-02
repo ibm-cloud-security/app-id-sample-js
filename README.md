@@ -1,27 +1,35 @@
 # JS Sample App
 
-The IBM Cloud App ID SDK can be used with a Vanilla Javascript App. Read the [official documentation](https://cloud.ibm.com/docs/services/appid?topic=appid-single-page) for information on getting started with IBM Cloud App ID and single-page applications.
-
-## Table of Contents
-- [Getting Started][1]
-- [Running the App Locally][2]
+The IBM Cloud AppID SDK can be used with a Vanilla Javascript App. 
+You will need an IBM Cloud App ID instance with a singlepageapp 
+application created. Use the clientId and discoveryEndpoint from 
+the application credentials to initialize the AppID instance.
 
 ## Getting Started
-Before you begin, you will need an [IBM Cloud App ID](https://www.ibm.com/cloud/app-id) instance with a `singlepageapp` application created. For more information on how to create a `singlepageapp`, visit the [documentation](https://cloud.ibm.com/docs/services/appid?topic=appid-single-page#create-spa-credentials).
 
-In the `config.json` file, replace <CLIENT_ID> and <WELL_KNOWN_ENDPOINT> with the `clientId` and `discoveryEndpoint` from the application credentials.
+In the index.html file replace the <SPA_CLIENT_ID> with your clientId and the <WELL_KNOWN_ENDPOINT> with your discoveryEndpoint
 
 ```
-{
-    "clientId": "<CLIENT_ID>",
-    "discoveryEndpoint": "<WELL_KNOWN_ENDPOINT>"
-}
+const appID = new AppID();
+  await appID.init({
+  clientId: <SPA_CLIENT_ID>,
+  discoveryEndpoint: <WELL_KNOWN_ENDPOINT>
+});
 ```
+## Setting up the IBM Cloud App ID SDK
 
-## Running the App Locally
-Make sure you have updated the `config.json` with your application credentials.
-1. Run ```npm install```
-2. Start the sample application by running ```npm start```
+* Navigate to the js-sample folder
+* Clone the App ID SDK repo git clone https://github.com/ibm-cloud-security/appid-clientsdk-js.git
+* Navigate to the appid-clientsdk-js folder
+* Run git checkout development
+* Run npm install
+* Run npm run build
 
-[1]: #getting-started
-[2]: #running-the-app-locally
+
+## To run locally
+Navigate back to the js-sample folder
+
+Run ```npm install```
+
+Run ```node index.js```
+

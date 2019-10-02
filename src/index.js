@@ -1,60 +1,76 @@
 const AppID = require('ibmcloud-appid-js');
 const config = require('./config.json');
 
-const $loginButton = document.getElementById('login');
+const $login = document.getElementById('login');
 const $welcome = document.getElementById('welcome');
 const $afterLogin = document.getElementById('afterLogin');
-const $welcomeNameId = document.getElementById('welcomeNameID');
-const $tokenContent = document.getElementById('tokenContent');
-const $userContent = document.getElementById('userContent');
-const $error = document.getElementById('error');
-
-const appID = new AppID();
-
-async function onLoginButtonClick() {
-	try {
-		hideElement($loginButton);
-
-		const tokens = await appID.signinWithPopup();
-		let userInfo = await appID.getUserInfo(tokens.accessToken);
-
-		hideElement($welcome);
-		showElement($afterLogin);
-
-		let decodeIDToken = tokens.idTokenPayload;
-
-		$welcomeNameId.textContent = 'Hi ' + decodeIDToken.name + ', Congratulations!';
-		$tokenContent.textContent = JSON.stringify(decodeIDToken);
-		$userContent.textContent = JSON.stringify(userInfo);
-	} catch (e) {
-		$error.textContent = e;
-		showElement($loginButton);
-	}
-}
-
-(async () => {
-	try {
-		await appID.init(config);
-		showElement($loginButton);
-		$loginButton.addEventListener('click', onLoginButtonClick);
-	} catch (e) {
-		$error.textContent = e;
-	}
-})();
 
 function hideElement($element) {
-	$element.classList.add('hidden');
+	$element.style.display = 'none';
 }
 
 function showElement($element) {
-	$element.classList.remove('hidden');
+	$element.style.display = 'block';
 }
 
-const collaps = document.getElementsByClassName("collapsible");
-for (let collapsible of collaps) {
-	const btn = collapsible.getElementsByTagName("button")[0];
-	btn.addEventListener("click", () => {
-		collapsible.classList.toggle("active");
-	});
+function errorDisplay(e) {
+	document.getElementById('error').style.display = 'block';
+	document.getElementById('error').textContent = e;
+	showElement($login);
 }
 
+function textContentDisplay(id, content) {
+	document.getElementById(id).textContent = content;
+}
+
+(async () => {
+	const appID = new AppID();
+	try {
+		await appID.init(config);
+		showElement($login);
+		const tokens = await appID.silentSignin();
+      if (tokens) {
+			document.getElementById('tokenContent').textContent = JSON.stringify(tokens.idTokenPayload);
+		}
+		$login.addEventListener('click', async () => {
+			try {
+				const tokens = await appID.signinWithPopup();
+				let userInfo = await appID.getUserInfo(tokens.accessToken);
+	
+				hideElement($welcome);
+				showElement($afterLogin);
+	
+				let decodeIDToken = tokens.idTokenPayload;
+				let welcomeNameText = 'Hi ' + decodeIDToken.name + ', Congratulations!';
+				const textContentObject = {
+					welcomeNameID: welcomeNameText,
+					tokenContent: JSON.stringify(decodeIDToken),
+					userContent: JSON.stringify(userInfo)
+				}
+				const textContentProperties = Object.entries(textContentObject);
+				for (const [id, content] of textContentProperties) {textContentDisplay(id, content)}	
+	
+			} catch (e) {
+				errorDisplay(e);
+			}
+		});
+	} catch (e) {
+		errorDisplay(e);
+	}
+})();
+
+var col = document.getElementsByClassName("collapsible");
+var i;
+for (i = 0; i < col.length; i++) {
+  col[i].addEventListener("click", function() {
+	 this.classList.toggle("active");
+	 let c = this.children;
+	 c[0].classList.toggle('changeRotation');
+	 var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+		content.style.display = "none";
+	 } else {
+		content.style.display = "block";
+	 }
+  });
+}

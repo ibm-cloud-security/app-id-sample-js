@@ -7,7 +7,8 @@
     "start": "npm run postinstall && ws --port 3005 --directory public --hostname localhost"
   },
   "dependencies": {
-    "ibmcloud-appid-js": "^0.0.2"
+    "@ibm/plex": "^2.0.0",
+    "ibmcloud-appid-js": "0.0.2"
   },
   "devDependencies": {
     "local-web-server": "^3.0.7",
