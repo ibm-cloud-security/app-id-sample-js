@@ -27,7 +27,11 @@ async function onLoginButtonClick() {
 		$tokenContent.textContent = JSON.stringify(decodeIDToken);
 		$userContent.textContent = JSON.stringify(userInfo);
 	} catch (e) {
-		$error.textContent = e;
+		if (e == 'Error: Popup closed') {
+			$error.textContent = 'The pop-up window closed before sign-in completed. Click Sign in to try again.';
+      } else {
+         $error.textContent = e;
+      }
 		showElement($loginButton);
 	}
 }
