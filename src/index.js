@@ -1,5 +1,5 @@
-const AppID = require('ibmcloud-appid-js');
-const config = require('./config.json');
+import AppID from 'ibmcloud-appid-js';
+import config from './config.json';
 
 const $loginButton = document.getElementById('login');
 const $welcome = document.getElementById('welcome');
@@ -15,7 +15,7 @@ async function onLoginButtonClick() {
 	try {
 		hideElement($loginButton);
 
-		const tokens = await appID.signinWithPopup();
+		const tokens = await appID.signin();
 		let userInfo = await appID.getUserInfo(tokens.accessToken);
 
 		hideElement($welcome);
