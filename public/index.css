@@ -62,6 +62,23 @@ body {
 	outline: none;
 }
 
+#password {
+	font-family: 'IBMPlexSans-Medium', sans-serif;
+	font-size: 14px;
+	letter-spacing: 0;
+	text-align: center;
+	background-color: #EBF0F7;
+	border: none;
+	padding: 10px 40px;
+	text-decoration: none;
+	cursor: pointer;
+	width: 200px;
+	height: 40px;
+	margin: 0 auto;
+	outline: none;
+	margin-bottom: 20px;
+}
+
 #error {
 	padding-top: 20px;
 	font-size: 14px;
@@ -69,7 +86,7 @@ body {
 }
 
 @-moz-document url-prefix() {
-	#login {
+	#login, #password {
 		font-family: 'IBM Plex Sans Medium', 'Helvetica Neue', Arial, sans-serif;
 	}
 }
@@ -95,10 +112,6 @@ body {
 	.flex-bottom {
 		font-family: 'IBM Plex Sans Medium', sans-serif;
 	}
-}
-
-#chevronIconI, #chevronIconII {
-	margin-right: 20px;
 }
 
 .expand {
@@ -127,6 +140,11 @@ body {
 	font-family: 'IBMPlexSans-Medium', sans-serif;
 	box-shadow: 0px -1px 5px 0px rgba(0, 0, 0, 0.15);
  }
+ @-moz-document url-prefix() {
+	.collapsible button {
+		  font-family: 'IBM Plex Sans Medium', sans-serif;
+	  }
+  }
 
  .content {
 	display: none;
@@ -144,6 +162,11 @@ body {
  .collapsible.active .content {
 	 display: block;
  }
+ @-moz-document url-prefix() {
+	.content {
+		font-family: 'IBM Plex Sans Light', sans-serif;
+	}	
+}
 
 .active button {
 	width: 800px;

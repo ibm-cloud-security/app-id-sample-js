@@ -1,4 +1,4 @@
 {
-    "clientId": "<CLIENT_ID>",
-    "discoveryEndpoint": "<WELL_KNOWN_ENDPOINT>"
+    "clientId": "3ca4309c-77c7-4a7d-b503-1f9ff370d242",
+    "discoveryEndpoint": "https://eu-gb.appid.test.cloud.ibm.com/oauth/v4/0a2e98b0-587a-4965-8ca2-d3fc7921441a/.well-known/openid-configuration"
 }
