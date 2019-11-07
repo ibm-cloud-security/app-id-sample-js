@@ -10,16 +10,20 @@ const $tokenContent = document.getElementById('tokenContent');
 const $userContent = document.getElementById('userContent');
 const $error = document.getElementById('error');
 const $passwordChange = document.getElementById('passwordChange');
+const $spinner = document.getElementById('spinner');
 hideElement($passwordChange);
+hideElement($spinner);
 
 const appID = new AppID();
 
 async function onLoginButtonClick() {
 	try {
 		hideElement($loginButton);
+		showElement($spinner);
 		const tokens = await appID.signin();
 		displayUserInfo(tokens);
 	} catch (e) {
+		hideElement($spinner);
 		if (e == 'Error: Popup closed') {
 			$error.textContent = 'The pop-up window closed before sign-in completed. Click Sign in to try again.';
 		} else {
@@ -32,9 +36,11 @@ async function onLoginButtonClick() {
 (async () => {
 	try {
 		await appID.init(config);
+		showElement($spinner);
 		const tokens = await appID.silentSignin();
 		displayUserInfo(tokens);
 	} catch (e) {
+		hideElement($spinner);
 		showElement($loginButton);
 		$loginButton.addEventListener('click', onLoginButtonClick);
 	}
