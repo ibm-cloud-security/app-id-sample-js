@@ -25,3 +25,9 @@ Make sure you have updated the `config.json` with your application credentials.
 
 [1]: #getting-started
 [2]: #running-the-app-locally
+
+## Silent Login
+This app has silent login enabled which allows you to automatically obtain new tokens for a user without the user having to re-authenticate using a popup. This will attempt to authenticate the user in a hidden iframe.
+
+You will need to enable Cloud Directory SSO.
+Sign in will be successful only if the user has previously signed in using Cloud Directory and their session is not expired.
