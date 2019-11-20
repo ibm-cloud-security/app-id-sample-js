@@ -2,16 +2,13 @@ import AppID from 'ibmcloud-appid-js';
 import config from './config.json';
 
 const $loginButton = document.getElementById('login');
-const $changePasswordButton = document.getElementById('password');
 const $welcome = document.getElementById('welcome');
 const $afterLogin = document.getElementById('afterLogin');
 const $welcomeNameId = document.getElementById('welcomeNameID');
 const $tokenContent = document.getElementById('tokenContent');
 const $userContent = document.getElementById('userContent');
 const $error = document.getElementById('error');
-const $passwordChange = document.getElementById('passwordChange');
 const $spinner = document.getElementById('spinner');
-hideElement($passwordChange);
 hideElement($spinner);
 
 const appID = new AppID();
@@ -23,6 +20,7 @@ async function onLoginButtonClick() {
 		const tokens = await appID.signin();
 		displayUserInfo(tokens);
 	} catch (e) {
+		console.log(e);
 		hideElement($spinner);
 		if (e == 'Error: Popup closed') {
 			$error.textContent = 'The pop-up window closed before sign-in completed. Click Sign in to try again.';
@@ -49,25 +47,11 @@ async function onLoginButtonClick() {
 async function displayUserInfo(tokens) {
 	let userInfo = await appID.getUserInfo(tokens.accessToken);
 	let decodeIDToken = tokens.idTokenPayload;
-	let jwtToken = tokens.idToken;
-	changePassword(jwtToken);
 	hideElement($welcome);
 	showElement($afterLogin);
 	$welcomeNameId.textContent = 'Hi ' + decodeIDToken.name + ', Congratulations!';
 	$tokenContent.textContent = JSON.stringify(decodeIDToken);
 	$userContent.textContent = JSON.stringify(userInfo);
-}
-
-function changePassword(idToken) {
-	$changePasswordButton.addEventListener('click', async function(){
-		console.log('here')
-		try {
-			let tokens = await appID.changePassword(idToken);
-			showElement($passwordChange);
-		} catch (e) {
-			console.log(e)
-		}
-	});
 }
 
 function hideElement($element) {
