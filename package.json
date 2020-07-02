@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "local-web-server": "^3.0.7",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9"
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
   },
   "private": true
 }
