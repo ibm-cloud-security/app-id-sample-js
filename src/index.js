@@ -8,26 +8,25 @@ const $welcomeNameId = document.getElementById('welcomeNameID');
 const $tokenContent = document.getElementById('tokenContent');
 const $userContent = document.getElementById('userContent');
 const $error = document.getElementById('error');
+const $spinner = document.getElementById('spinner');
+hideElement($spinner);
 
 const appID = new AppID();
 
 async function onLoginButtonClick() {
 	try {
 		hideElement($loginButton);
-
+		showElement($spinner);
 		const tokens = await appID.signin();
-		let userInfo = await appID.getUserInfo(tokens.accessToken);
-
-		hideElement($welcome);
-		showElement($afterLogin);
-
-		let decodeIDToken = tokens.idTokenPayload;
-
-		$welcomeNameId.textContent = 'Hi ' + decodeIDToken.name + ', Congratulations!';
-		$tokenContent.textContent = JSON.stringify(decodeIDToken);
-		$userContent.textContent = JSON.stringify(userInfo);
+		displayUserInfo(tokens);
 	} catch (e) {
-		$error.textContent = e;
+		console.log(e);
+		hideElement($spinner);
+		if (e == 'Error: Popup closed') {
+			$error.textContent = 'The pop-up window closed before sign-in completed. Click Sign in to try again.';
+		} else {
+			$error.textContent = e;
+		}
 		showElement($loginButton);
 	}
 }
@@ -35,12 +34,25 @@ async function onLoginButtonClick() {
 (async () => {
 	try {
 		await appID.init(config);
+		showElement($spinner);
+		const tokens = await appID.silentSignin();
+		displayUserInfo(tokens);
+	} catch (e) {
+		hideElement($spinner);
 		showElement($loginButton);
 		$loginButton.addEventListener('click', onLoginButtonClick);
-	} catch (e) {
-		$error.textContent = e;
 	}
 })();
+
+async function displayUserInfo(tokens) {
+	let userInfo = await appID.getUserInfo(tokens.accessToken);
+	let decodeIDToken = tokens.idTokenPayload;
+	hideElement($welcome);
+	showElement($afterLogin);
+	$welcomeNameId.textContent = 'Hi ' + decodeIDToken.name + ', Congratulations!';
+	$tokenContent.textContent = JSON.stringify(decodeIDToken);
+	$userContent.textContent = JSON.stringify(userInfo);
+}
 
 function hideElement($element) {
 	$element.classList.add('hidden');

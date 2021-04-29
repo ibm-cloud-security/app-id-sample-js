@@ -9,7 +9,7 @@
 	<div class="wrapper">
 		<span><b>IBM Cloud AppID SDK Sample SPA</b></span>
 	</div>
-
+    
     <div id="welcome">
         <div class="welcome-display">
             <div>
@@ -20,7 +20,8 @@
                     Sample App
                 </p>
             </div>
-            <button id="login" class="hidden">Login</button>
+            <div id="spinner" class="loader"></div>
+            <button id="login" class="hidden">Sign in</button>
             <div id="error"></div>
         </div>
         <div class="hintSection">
@@ -36,7 +37,7 @@
 	<div id="afterLogin" class="hidden">
 		<div class="welcome-display">
 			<p id="welcomeNameID"></p>
-			<p id="welcomeMessageII">You've made your first authentication.</p>
+            <p id="welcomeMessageII">You've made your first authentication.</p>
 		</div>
 
         <div class="collapsible">
